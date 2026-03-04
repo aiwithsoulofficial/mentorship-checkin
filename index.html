@@ -768,6 +768,80 @@ function calculateResults() {
   // Show results
   document.getElementById('results').classList.add('visible');
   document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+
+  // Send to Kelly via Telegram
+  sendToTelegram(pillarScores, overall);
+}
+
+function sendToTelegram(pillarScores, overall) {
+  const name = document.getElementById('student-name').value || 'Student';
+  const bd = document.getElementById('birth-date').value;
+  const bt = document.getElementById('birth-time').value;
+  const bp = document.getElementById('birth-place').value.trim();
+
+  let msg = '<b>NEW CHECK-IN SUBMITTED</b>\n\n';
+  msg += '<b>' + name + '</b>\n';
+  if (bd) msg += 'Born: ' + bd + (bt ? ' ' + bt : '') + (bp ? ', ' + bp : '') + '\n';
+  msg += '\n<b>OVERALL: ' + overall.toFixed(1) + ' / 5</b>\n';
+  msg += getOverallVibe(overall) + '\n\n';
+
+  msg += 'Intuition: ' + pillarScores.intuition.toFixed(1) + '/5 - ' + getVibeLabel(pillarScores.intuition) + '\n';
+  msg += 'Body/Energy: ' + pillarScores.health.toFixed(1) + '/5 - ' + getVibeLabel(pillarScores.health) + '\n';
+  msg += 'Business: ' + pillarScores.business.toFixed(1) + '/5 - ' + getVibeLabel(pillarScores.business) + '\n\n';
+
+  // Sleep environment
+  const bedtime = document.getElementById('qf-bedtime').value.trim();
+  if (bedtime || toggles['qf-phone'] || toggles['qf-light'] || toggles['qf-breathing']) {
+    msg += '<b>SLEEP ENVIRONMENT</b>\n';
+    if (bedtime) msg += 'Bedtime: ' + bedtime + '\n';
+    if (toggles['qf-phone']) msg += 'Phone by bed: ' + toggles['qf-phone'] + '\n';
+    if (toggles['qf-light']) msg += 'Light in room: ' + toggles['qf-light'] + '\n';
+    if (toggles['qf-breathing']) msg += 'Breathing: ' + toggles['qf-breathing'] + '\n';
+    msg += '\n';
+  }
+
+  // Business snapshot
+  const offer = document.getElementById('qf-offer').value.trim();
+  const audience = document.getElementById('qf-audience').value.trim();
+  const price = document.getElementById('qf-price').value.trim();
+  if (offer || audience || price || toggles['qf-website'] || toggles['qf-email'] || toggles['qf-crm']) {
+    msg += '<b>BUSINESS SNAPSHOT</b>\n';
+    if (offer) msg += 'Offer: ' + offer + '\n';
+    if (audience) msg += 'Audience: ' + audience + '\n';
+    if (price) msg += 'Price: ' + price + '\n';
+    if (toggles['qf-website']) msg += 'Website: ' + toggles['qf-website'] + '\n';
+    if (toggles['qf-email']) msg += 'Email list: ' + toggles['qf-email'] + '\n';
+    if (toggles['qf-crm']) msg += 'CRM: ' + toggles['qf-crm'] + '\n';
+    msg += '\n';
+  }
+
+  // Open responses
+  const openI = document.getElementById('open-intuition').value.trim();
+  const openHPain = document.getElementById('open-health-pain').value.trim();
+  const openH = document.getElementById('open-health').value.trim();
+  const openB = document.getElementById('open-business').value.trim();
+  if (openI || openHPain || openH || openB) {
+    msg += '<b>WHAT SHE SAID</b>\n';
+    if (openI) msg += 'Intuition vision: "' + openI + '"\n\n';
+    if (openHPain) msg += 'Pain/discomfort: "' + openHPain + '"\n\n';
+    if (openH) msg += 'What worked before: "' + openH + '"\n\n';
+    if (openB) msg += 'Business vision: "' + openB + '"\n\n';
+  }
+
+  // Raw scores
+  msg += '<b>RAW SCORES</b>\n';
+  const qLabels = {
+    i1:'Practice',i2:'Intuition vs ego',i3:'Follows guidance',i4:'Source connection',i5:'Faith',
+    h1:'Movement',h2:'Digestion',h3:'Sleep',h4:'Waking',h5:'Pain',
+    b1:'Offer',b2:'Transformation',b3:'Pricing',b4:'Acquisition',b5:'Digital'
+  };
+  for (const [q,l] of Object.entries(qLabels)) msg += l + ': ' + (scores[q]||'-') + '/5\n';
+
+  fetch('https://api.telegram.org/bot8370823351:AAFIS2oYqnoqm_y4xaZlNMqb4SaFnapDu7s/sendMessage', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ chat_id: '6783708099', text: msg, parse_mode: 'HTML' })
+  }).catch(() => {});
 }
 
 function copyResults() {
