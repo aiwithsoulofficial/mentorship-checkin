@@ -478,9 +478,9 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
     </div>
 
     <div class="question-card" data-q="b5">
-      <div class="question-text">Your digital presence - website, socials, email list, CRM - is it set up and working for you, or is it a half-built mess you keep meaning to sort out?</div>
+      <div class="question-text">Do you have a clear picture of what needs to happen in the next 90 days? Like, if I said "what are the 3 things you need to nail this quarter" - could you tell me?</div>
       <div class="scale-row">
-        <span class="scale-label">Half-built mess</span>
+        <span class="scale-label">No idea</span>
         <div class="scale-buttons">
           <button class="scale-btn" onclick="selectScore(this,1)">1</button>
           <button class="scale-btn" onclick="selectScore(this,2)">2</button>
@@ -488,52 +488,58 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
           <button class="scale-btn" onclick="selectScore(this,4)">4</button>
           <button class="scale-btn" onclick="selectScore(this,5)">5</button>
         </div>
-        <span class="scale-label">Dialled in</span>
+        <span class="scale-label">Mapped out</span>
       </div>
     </div>
 
-    <!-- BUSINESS DETAIL - QUICK FIRE -->
+    <!-- YOUR OFFER -->
+    <div class="open-card">
+      <div class="question-text">What's your main offer right now? What are you actually selling?</div>
+      <textarea id="qf-offer" placeholder="Tell me everything - services, products, packages, courses..." style="min-height:100px;"></textarea>
+    </div>
+
+    <div class="open-card">
+      <div class="question-text">Who are you selling to? Paint me a picture of your ideal client.</div>
+      <textarea id="qf-audience" placeholder="Who are they, what do they need, where do they hang out..." style="min-height:100px;"></textarea>
+    </div>
+
+    <div class="open-card">
+      <div class="question-text">What are your current price points?</div>
+      <textarea id="qf-price" placeholder="List them all - packages, hourly, retainers, whatever you've got..." style="min-height:80px;"></textarea>
+    </div>
+
+    <!-- DIGITAL ASSETS -->
     <div class="quickfire" style="border-color: var(--business-border);">
-      <div class="quickfire-label" style="color: var(--business);">The specifics - quick fire</div>
+      <div class="quickfire-label" style="color: var(--business);">Your digital assets - what do you actually have?</div>
 
-      <div class="quickfire-item">
-        <span class="quickfire-q">What's your main offer right now?</span>
-        <input type="text" class="quickfire-input" id="qf-offer" placeholder="e.g. 1:1 coaching" style="width: 180px;">
+      <div class="quickfire-item" style="flex-direction:column; align-items:stretch; gap:8px;">
+        <span class="quickfire-q">Website URL (if you have one)</span>
+        <input type="text" class="quickfire-input" id="qf-website" placeholder="e.g. www.yoursite.com" style="width:100%; text-align:left;">
       </div>
 
-      <div class="quickfire-item">
-        <span class="quickfire-q">Who are you selling to?</span>
-        <input type="text" class="quickfire-input" id="qf-audience" placeholder="e.g. Women 30-50" style="width: 180px;">
+      <div class="quickfire-item" style="flex-direction:column; align-items:stretch; gap:8px;">
+        <span class="quickfire-q">Social media handles - list them all (Instagram, LinkedIn, Facebook, TikTok, whatever you've got)</span>
+        <textarea id="qf-socials" style="width:100%; min-height:80px; border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-family:'Outfit',sans-serif; font-size:14px; background:var(--surface-2); color:var(--text); resize:vertical;" placeholder="e.g. Instagram: @yourbiz&#10;LinkedIn: linkedin.com/in/you&#10;Facebook: facebook.com/yourbiz"></textarea>
       </div>
 
-      <div class="quickfire-item">
-        <span class="quickfire-q">Price point?</span>
-        <input type="text" class="quickfire-input" id="qf-price" placeholder="e.g. $2,000">
+      <div class="quickfire-item" style="flex-direction:column; align-items:stretch; gap:8px;">
+        <span class="quickfire-q">What are you using for email? (e.g. Mailchimp, ConvertKit, nothing yet)</span>
+        <input type="text" class="quickfire-input" id="qf-email" placeholder="e.g. Mailchimp, or nothing" style="width:100%; text-align:left;">
       </div>
 
-      <div class="quickfire-item">
-        <span class="quickfire-q">Got a website?</span>
-        <div class="toggle-group">
-          <button class="toggle-btn" onclick="selectToggle(this,'qf-website','Yes')">Yes</button>
-          <button class="toggle-btn" onclick="selectToggle(this,'qf-website','No')">No</button>
-        </div>
+      <div class="quickfire-item" style="flex-direction:column; align-items:stretch; gap:8px;">
+        <span class="quickfire-q">CRM? (e.g. HubSpot, spreadsheet, sticky notes, nothing)</span>
+        <input type="text" class="quickfire-input" id="qf-crm" placeholder="e.g. HubSpot, or just my inbox" style="width:100%; text-align:left;">
       </div>
 
-      <div class="quickfire-item">
-        <span class="quickfire-q">Email list?</span>
-        <div class="toggle-group">
-          <button class="toggle-btn" onclick="selectToggle(this,'qf-email','Yes')">Yes</button>
-          <button class="toggle-btn" onclick="selectToggle(this,'qf-email','No')">No</button>
-        </div>
+      <div class="quickfire-item" style="flex-direction:column; align-items:stretch; gap:8px;">
+        <span class="quickfire-q">AI tools & subscriptions - what are you signed up for right now? (ChatGPT, Claude, Canva, anything)</span>
+        <textarea id="qf-ai" style="width:100%; min-height:80px; border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-family:'Outfit',sans-serif; font-size:14px; background:var(--surface-2); color:var(--text); resize:vertical;" placeholder="e.g. ChatGPT Plus, Canva Pro, some LinkedIn AI thing I paused..."></textarea>
       </div>
 
-      <div class="quickfire-item">
-        <span class="quickfire-q">Using a CRM?</span>
-        <div class="toggle-group">
-          <button class="toggle-btn" onclick="selectToggle(this,'qf-crm','Yes')">Yes</button>
-          <button class="toggle-btn" onclick="selectToggle(this,'qf-crm','No')">No</button>
-          <button class="toggle-btn" onclick="selectToggle(this,'qf-crm','What\'s that')">What's that</button>
-        </div>
+      <div class="quickfire-item" style="flex-direction:column; align-items:stretch; gap:8px;">
+        <span class="quickfire-q">Anything else? Other tools, software, platforms you're using in your business?</span>
+        <textarea id="qf-other" style="width:100%; min-height:60px; border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-family:'Outfit',sans-serif; font-size:14px; background:var(--surface-2); color:var(--text); resize:vertical;" placeholder="e.g. Zoom, Stripe, Xero, Google Workspace..."></textarea>
       </div>
     </div>
 
@@ -738,19 +744,28 @@ function calculateResults() {
   if (openHPain) { document.getElementById('resp-health-pain').style.display = 'block'; document.getElementById('resp-health-pain-text').textContent = '"' + openHPain + '"'; }
   if (openH) { document.getElementById('resp-health').style.display = 'block'; document.getElementById('resp-health-text').textContent = '"' + openH + '"'; }
 
-  // Business quickfire
+  // Business details
   const offer = document.getElementById('qf-offer').value.trim();
   const audience = document.getElementById('qf-audience').value.trim();
   const price = document.getElementById('qf-price').value.trim();
-  const hasBizQF = offer || audience || price || toggles['qf-website'] || toggles['qf-email'] || toggles['qf-crm'];
-  if (hasBizQF) {
+  const website = document.getElementById('qf-website').value.trim();
+  const socials = document.getElementById('qf-socials').value.trim();
+  const emailTool = document.getElementById('qf-email').value.trim();
+  const crm = document.getElementById('qf-crm').value.trim();
+  const aiTools = document.getElementById('qf-ai').value.trim();
+  const otherTools = document.getElementById('qf-other').value.trim();
+  const hasBizDetail = offer || audience || price || website || socials || emailTool || crm || aiTools || otherTools;
+  if (hasBizDetail) {
     let bizText = '';
-    if (offer) bizText += 'Main offer: ' + offer + '\n';
-    if (audience) bizText += 'Selling to: ' + audience + '\n';
-    if (price) bizText += 'Price point: ' + price + '\n';
-    if (toggles['qf-website']) bizText += 'Website: ' + toggles['qf-website'] + '\n';
-    if (toggles['qf-email']) bizText += 'Email list: ' + toggles['qf-email'] + '\n';
-    if (toggles['qf-crm']) bizText += 'CRM: ' + toggles['qf-crm'];
+    if (offer) bizText += 'OFFER: ' + offer + '\n\n';
+    if (audience) bizText += 'AUDIENCE: ' + audience + '\n\n';
+    if (price) bizText += 'PRICING: ' + price + '\n\n';
+    if (website) bizText += 'Website: ' + website + '\n';
+    if (socials) bizText += 'Socials: ' + socials + '\n';
+    if (emailTool) bizText += 'Email: ' + emailTool + '\n';
+    if (crm) bizText += 'CRM: ' + crm + '\n';
+    if (aiTools) bizText += 'AI tools: ' + aiTools + '\n';
+    if (otherTools) bizText += 'Other: ' + otherTools;
     document.getElementById('resp-business-detail').style.display = 'block';
     document.getElementById('resp-business-detail-text').textContent = bizText;
   }
@@ -800,18 +815,33 @@ function sendToTelegram(pillarScores, overall) {
     msg += '\n';
   }
 
-  // Business snapshot
-  const offer = document.getElementById('qf-offer').value.trim();
-  const audience = document.getElementById('qf-audience').value.trim();
-  const price = document.getElementById('qf-price').value.trim();
-  if (offer || audience || price || toggles['qf-website'] || toggles['qf-email'] || toggles['qf-crm']) {
+  // Business details
+  const tOffer = document.getElementById('qf-offer').value.trim();
+  const tAudience = document.getElementById('qf-audience').value.trim();
+  const tPrice = document.getElementById('qf-price').value.trim();
+  if (tOffer || tAudience || tPrice) {
     msg += '<b>BUSINESS SNAPSHOT</b>\n';
-    if (offer) msg += 'Offer: ' + offer + '\n';
-    if (audience) msg += 'Audience: ' + audience + '\n';
-    if (price) msg += 'Price: ' + price + '\n';
-    if (toggles['qf-website']) msg += 'Website: ' + toggles['qf-website'] + '\n';
-    if (toggles['qf-email']) msg += 'Email list: ' + toggles['qf-email'] + '\n';
-    if (toggles['qf-crm']) msg += 'CRM: ' + toggles['qf-crm'] + '\n';
+    if (tOffer) msg += 'Offer: ' + tOffer + '\n';
+    if (tAudience) msg += 'Audience: ' + tAudience + '\n';
+    if (tPrice) msg += 'Pricing: ' + tPrice + '\n';
+    msg += '\n';
+  }
+
+  // Digital assets
+  const tWebsite = document.getElementById('qf-website').value.trim();
+  const tSocials = document.getElementById('qf-socials').value.trim();
+  const tEmail = document.getElementById('qf-email').value.trim();
+  const tCrm = document.getElementById('qf-crm').value.trim();
+  const tAi = document.getElementById('qf-ai').value.trim();
+  const tOther = document.getElementById('qf-other').value.trim();
+  if (tWebsite || tSocials || tEmail || tCrm || tAi || tOther) {
+    msg += '<b>DIGITAL ASSETS</b>\n';
+    if (tWebsite) msg += 'Website: ' + tWebsite + '\n';
+    if (tSocials) msg += 'Socials: ' + tSocials + '\n';
+    if (tEmail) msg += 'Email tool: ' + tEmail + '\n';
+    if (tCrm) msg += 'CRM: ' + tCrm + '\n';
+    if (tAi) msg += 'AI subs: ' + tAi + '\n';
+    if (tOther) msg += 'Other: ' + tOther + '\n';
     msg += '\n';
   }
 
@@ -833,7 +863,7 @@ function sendToTelegram(pillarScores, overall) {
   const qLabels = {
     i1:'Practice',i2:'Intuition vs ego',i3:'Follows guidance',i4:'Source connection',i5:'Faith',
     h1:'Movement',h2:'Digestion',h3:'Sleep',h4:'Waking',h5:'Pain',
-    b1:'Offer',b2:'Transformation',b3:'Pricing',b4:'Acquisition',b5:'Digital'
+    b1:'Offer',b2:'Transformation',b3:'Pricing',b4:'Acquisition',b5:'90-day plan'
   };
   for (const [q,l] of Object.entries(qLabels)) msg += l + ': ' + (scores[q]||'-') + '/5\n';
 
@@ -889,19 +919,32 @@ function copyResults() {
     text += '\n';
   }
 
-  // Business snapshot
-  const offer2 = document.getElementById('qf-offer').value.trim();
-  const audience2 = document.getElementById('qf-audience').value.trim();
-  const price2 = document.getElementById('qf-price').value.trim();
-  const hasBizQF2 = offer2 || audience2 || price2 || toggles['qf-website'] || toggles['qf-email'] || toggles['qf-crm'];
-  if (hasBizQF2) {
+  // Business details
+  const cOffer = document.getElementById('qf-offer').value.trim();
+  const cAudience = document.getElementById('qf-audience').value.trim();
+  const cPrice = document.getElementById('qf-price').value.trim();
+  if (cOffer || cAudience || cPrice) {
     text += '### Business Snapshot\n\n';
-    if (offer2) text += '- Main offer: ' + offer2 + '\n';
-    if (audience2) text += '- Selling to: ' + audience2 + '\n';
-    if (price2) text += '- Price point: ' + price2 + '\n';
-    if (toggles['qf-website']) text += '- Website: ' + toggles['qf-website'] + '\n';
-    if (toggles['qf-email']) text += '- Email list: ' + toggles['qf-email'] + '\n';
-    if (toggles['qf-crm']) text += '- CRM: ' + toggles['qf-crm'] + '\n';
+    if (cOffer) text += '**Offer:** ' + cOffer + '\n\n';
+    if (cAudience) text += '**Audience:** ' + cAudience + '\n\n';
+    if (cPrice) text += '**Pricing:** ' + cPrice + '\n\n';
+  }
+
+  // Digital assets
+  const cWebsite = document.getElementById('qf-website').value.trim();
+  const cSocials = document.getElementById('qf-socials').value.trim();
+  const cEmail = document.getElementById('qf-email').value.trim();
+  const cCrm = document.getElementById('qf-crm').value.trim();
+  const cAi = document.getElementById('qf-ai').value.trim();
+  const cOther = document.getElementById('qf-other').value.trim();
+  if (cWebsite || cSocials || cEmail || cCrm || cAi || cOther) {
+    text += '### Digital Assets\n\n';
+    if (cWebsite) text += '- Website: ' + cWebsite + '\n';
+    if (cSocials) text += '- Socials: ' + cSocials + '\n';
+    if (cEmail) text += '- Email: ' + cEmail + '\n';
+    if (cCrm) text += '- CRM: ' + cCrm + '\n';
+    if (cAi) text += '- AI tools: ' + cAi + '\n';
+    if (cOther) text += '- Other: ' + cOther + '\n';
     text += '\n';
   }
 
@@ -925,7 +968,7 @@ function copyResults() {
     h1: 'Daily movement', h2: 'Digestion', h3: 'Falling/staying asleep',
     h4: 'Waking refreshed', h5: 'Pain/discomfort',
     b1: 'Offer clarity', b2: 'Problem/transformation clarity', b3: 'Pricing confidence',
-    b4: 'Customer acquisition journey', b5: 'Digital assets'
+    b4: 'Customer acquisition journey', b5: '90-day clarity'
   };
   for (const [q, label] of Object.entries(qLabels)) {
     text += '- ' + label + ': ' + (scores[q] || '-') + '/5\n';
