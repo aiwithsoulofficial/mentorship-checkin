@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alignment Audit - Kelly Wotherspoon Mentorship</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAF8F5;
+  --surface: #FFFFFF;
+  --surface-2: #F5F2EE;
+  --border: #E8E2D9;
+  --text: #1a1a1a;
+  --text-muted: #6b6360;
+  --text-dim: #a09590;
+  --gold: #B8963E;
+  --gold-light: rgba(184,150,62,0.08);
+  --gold-border: rgba(184,150,62,0.2);
+  --intuition: #7c3aed;
+  --intuition-bg: rgba(124,58,237,0.06);
+  --intuition-border: rgba(124,58,237,0.2);
+  --health: #059669;
+  --health-bg: rgba(5,150,105,0.06);
+  --health-border: rgba(5,150,105,0.2);
+  --business: #d97706;
+  --business-bg: rgba(217,119,6,0.06);
+  --business-border: rgba(217,119,6,0.2);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+.container { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* HEADER */
+.header { text-align: center; margin-bottom: 48px; }
+.header-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 12px; }
+.header h1 { font-size: 36px; font-weight: 800; line-height: 1.15; margin-bottom: 8px; }
+.header h1 span { color: var(--gold); }
+.header-sub { color: var(--text-muted); font-size: 14px; font-weight: 300; line-height: 1.6; max-width: 480px; margin: 0 auto; }
+
+/* STUDENT INFO */
+.student-info { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 32px; }
+.student-info label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); font-weight: 600; display: block; margin-bottom: 6px; }
+.student-info input { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; font-family: 'Outfit', sans-serif; font-size: 15px; background: var(--surface-2); margin-bottom: 12px; }
+.student-info input:last-child { margin-bottom: 0; }
+.student-info input:focus { outline: none; border-color: var(--gold); }
+.student-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 500px) { .student-row { grid-template-columns: 1fr !important; } }
+
+/* PILLAR SECTIONS */
+.pillar { margin-bottom: 32px; }
+.pillar-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding: 16px 20px; border-radius: var(--radius-sm); }
+.pillar-header.intuition { background: var(--intuition-bg); border: 1px solid var(--intuition-border); }
+.pillar-header.health { background: var(--health-bg); border: 1px solid var(--health-border); }
+.pillar-header.business { background: var(--business-bg); border: 1px solid var(--business-border); }
+.pillar-icon { font-size: 24px; }
+.pillar-title { font-size: 18px; font-weight: 700; }
+.pillar-header.intuition .pillar-title { color: var(--intuition); }
+.pillar-header.health .pillar-title { color: var(--health); }
+.pillar-header.business .pillar-title { color: var(--business); }
+
+/* QUESTIONS */
+.question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px 24px; margin-bottom: 12px; }
+.question-text { font-size: 15px; font-weight: 500; margin-bottom: 14px; line-height: 1.5; }
+.scale-row { display: flex; gap: 8px; align-items: center; }
+.scale-label { font-size: 11px; color: var(--text-dim); min-width: 80px; text-align: center; }
+.scale-label:first-child { text-align: left; }
+.scale-label:last-child { text-align: right; }
+.scale-buttons { display: flex; gap: 6px; flex: 1; justify-content: center; }
+.scale-btn { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--border); background: var(--surface); cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600; color: var(--text-muted); transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+.scale-btn:hover { border-color: var(--gold); color: var(--gold); }
+.scale-btn.selected { border-color: var(--gold); background: var(--gold); color: white; }
+
+/* OPEN QUESTION */
+.open-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px 24px; margin-bottom: 12px; }
+.open-card .question-text { margin-bottom: 10px; }
+.open-card textarea { width: 100%; min-height: 80px; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-family: 'Outfit', sans-serif; font-size: 14px; line-height: 1.6; resize: vertical; background: var(--surface-2); color: var(--text); }
+.open-card textarea:focus { outline: none; border-color: var(--gold); }
+.open-card textarea::placeholder { color: var(--text-dim); }
+
+/* SUBMIT */
+.submit-section { text-align: center; margin-top: 40px; }
+.submit-btn { background: var(--gold); color: white; border: none; padding: 16px 48px; border-radius: 100px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 1px; transition: all 0.2s; }
+.submit-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(184,150,62,0.3); }
+
+/* RESULTS */
+.results { display: none; margin-top: 48px; }
+.results.visible { display: block; }
+.results-header { text-align: center; margin-bottom: 32px; }
+.results-header h2 { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+.results-header p { color: var(--text-muted); font-size: 14px; }
+.overall-score { text-align: center; margin-bottom: 36px; }
+.overall-number { font-size: 72px; font-weight: 800; color: var(--gold); line-height: 1; }
+.overall-label { font-size: 13px; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+.overall-vibe { font-size: 18px; font-weight: 600; color: var(--text); margin-top: 12px; }
+
+/* PILLAR SCORES */
+.pillar-score { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 16px; }
+.pillar-score-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.pillar-score-name { font-size: 16px; font-weight: 700; }
+.pillar-score-number { font-size: 24px; font-weight: 800; }
+.pillar-score-bar { height: 10px; background: var(--surface-2); border-radius: 100px; overflow: hidden; margin-bottom: 8px; }
+.pillar-score-fill { height: 100%; border-radius: 100px; transition: width 0.8s ease; }
+.pillar-score-vibe { font-size: 13px; color: var(--text-muted); }
+.pillar-score.intuition .pillar-score-name { color: var(--intuition); }
+.pillar-score.intuition .pillar-score-number { color: var(--intuition); }
+.pillar-score.intuition .pillar-score-fill { background: var(--intuition); }
+.pillar-score.health .pillar-score-name { color: var(--health); }
+.pillar-score.health .pillar-score-number { color: var(--health); }
+.pillar-score.health .pillar-score-fill { background: var(--health); }
+.pillar-score.business .pillar-score-name { color: var(--business); }
+.pillar-score.business .pillar-score-number { color: var(--business); }
+.pillar-score.business .pillar-score-fill { background: var(--business); }
+
+/* OPEN RESPONSES */
+.open-response { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 16px; }
+.open-response-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+.open-response-label.intuition { color: var(--intuition); }
+.open-response-label.health { color: var(--health); }
+.open-response-label.business { color: var(--business); }
+.open-response-q { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.open-response-a { font-size: 14px; color: var(--text-muted); line-height: 1.7; font-style: italic; }
+
+/* BREAKDOWN */
+.breakdown { background: var(--gold-light); border: 1px solid var(--gold-border); border-radius: var(--radius); padding: 24px 28px; margin-top: 24px; }
+.breakdown h3 { font-size: 16px; font-weight: 700; color: var(--gold); margin-bottom: 12px; }
+.breakdown-item { font-size: 14px; color: var(--text-muted); line-height: 1.8; padding-left: 16px; position: relative; }
+.breakdown-item::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+/* COPY BUTTON */
+.copy-section { text-align: center; margin-top: 32px; }
+.copy-btn { background: var(--text); color: white; border: none; padding: 14px 36px; border-radius: 100px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.copy-btn:hover { opacity: 0.85; }
+.copy-btn.copied { background: var(--health); }
+
+/* QUICK-FIRE */
+.quickfire { background: var(--surface); border: 1px solid var(--health-border); border-radius: var(--radius-sm); padding: 20px 24px; margin-bottom: 12px; }
+.quickfire-label { font-size: 12px; font-weight: 700; color: var(--health); margin-bottom: 16px; letter-spacing: 2px; text-transform: uppercase; }
+.quickfire-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--surface-2); gap: 16px; }
+.quickfire-item:last-child { border-bottom: none; }
+.quickfire-q { font-size: 14px; font-weight: 500; flex: 1; }
+.toggle-group { display: flex; gap: 6px; flex-shrink: 0; }
+.toggle-btn { padding: 7px 16px; border-radius: 100px; border: 2px solid var(--border); background: var(--surface); cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-muted); transition: all 0.15s; }
+.toggle-btn:hover { border-color: var(--gold); color: var(--gold); }
+.toggle-btn.selected { border-color: var(--gold); background: var(--gold); color: white; }
+.quickfire-input { border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; font-family: 'Outfit', sans-serif; font-size: 14px; width: 100px; text-align: center; background: var(--surface-2); color: var(--text); flex-shrink: 0; }
+.quickfire-input:focus { outline: none; border-color: var(--gold); }
+
+/* PRINT */
+@media print {
+  body { background: white; }
+  .submit-section, .copy-section { display: none; }
+  .results { display: block !important; }
+  .pillar, .student-info { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header class="header">
+    <div class="header-label">Before We Begin</div>
+    <h1>The <span>Real</span> Check-In</h1>
+    <div class="header-sub">I need to know where you actually are. Not the version you post about - the real one. Answer fast, trust your first instinct, and don't overthink it. There are no wrong answers, only honest ones.</div>
+  </header>
+
+  <!-- STUDENT INFO -->
+  <div class="student-info">
+    <div class="student-row">
+      <div>
+        <label>Your Name</label>
+        <input type="text" id="student-name" placeholder="First + Last">
+      </div>
+      <div>
+        <label>Date</label>
+        <input type="date" id="audit-date">
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <label>Birth Details <span style="font-weight:400;color:var(--text-dim);letter-spacing:0;text-transform:none;font-size:11px;">(for your charts)</span></label>
+    </div>
+    <div class="student-row" style="grid-template-columns: 1fr 1fr 1fr;">
+      <div>
+        <input type="date" id="birth-date" placeholder="Date of Birth">
+      </div>
+      <div>
+        <input type="time" id="birth-time" placeholder="Time of Birth">
+      </div>
+      <div>
+        <input type="text" id="birth-place" placeholder="Place of Birth">
+      </div>
+    </div>
+  </div>
+
+  <!-- PILLAR 1: INTUITION & TRUST -->
+  <div class="pillar" data-pillar="intuition">
+    <div class="pillar-header intuition">
+      <span class="pillar-icon">&#10024;</span>
+      <span class="pillar-title">Intuition & Trust</span>
+    </div>
+
+    <div class="question-card" data-q="i1">
+      <div class="question-text">Do you have a daily spiritual practice that actually connects you? Not just going through the motions - something that genuinely drops you in?</div>
+      <div class="scale-row">
+        <span class="scale-label">Not really</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Every single day</span>
+      </div>
+    </div>
+
+    <div class="question-card" data-q="i2">
+      <div class="question-text">Your intuition and your ego both talk. Can you tell them apart? Do you know which one's running the show?</div>
+      <div class="scale-row">
+        <span class="scale-label">They sound the same</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Crystal clear</span>
+      </div>
+    </div>
+
+    <div class="question-card" data-q="i3">
+      <div class="question-text">When you get a hit - a gut feeling, a knowing, a download - do you follow it? Or does your head jump in and talk you out of it?</div>
+      <div class="scale-row">
+        <span class="scale-label">I override it every time</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">I trust and move</span>
+      </div>
+    </div>
+
+    <div class="question-card" data-q="i4">
+      <div class="question-text">How connected do you feel to something bigger than you right now? Source, spirit, universe, god - whatever word is yours?</div>
+      <div class="scale-row">
+        <span class="scale-label">Pretty disconnected</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Deeply connected</span>
+      </div>
+    </div>
+
+    <div class="question-card" data-q="i5">
+      <div class="question-text">When your intuition tells you something that doesn't make logical sense - can you move on faith? Or do you need to understand it first?</div>
+      <div class="scale-row">
+        <span class="scale-label">I need proof first</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">I move on faith</span>
+      </div>
+    </div>
+
+    <div class="open-card">
+      <div class="question-text">What does your ideal intuitive connection look like by the end of our time together? How do you want to feel? What do you want to trust?</div>
+      <textarea id="open-intuition" placeholder="Paint me the picture..."></textarea>
+    </div>
+  </div>
+
+  <!-- PILLAR 2: HEALTH & WELLNESS -->
+  <div class="pillar" data-pillar="health">
+    <div class="pillar-header health">
+      <span class="pillar-icon">&#9752;</span>
+      <span class="pillar-title">Your Body & Energy</span>
+    </div>
+
+    <div class="question-card" data-q="h1">
+      <div class="question-text">Do you move your body every day? Walk, gym, stretch, yoga, dance in the kitchen - something?</div>
+      <div class="scale-row">
+        <span class="scale-label">Barely</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Every single day</span>
+      </div>
+    </div>
+
+    <div class="question-card" data-q="h2">
+      <div class="question-text">Let's talk digestion. Are your bowels moving daily? How do you feel after eating - light and good, or bloated and heavy?</div>
+      <div class="scale-row">
+        <span class="scale-label">It's not great</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Smooth as</span>
+      </div>
+    </div>
+
+    <div class="question-card" data-q="h3">
+      <div class="question-text">When you get into bed - can you actually fall asleep? And do you stay asleep? Or are you lying there at 2am with your brain going a million miles an hour?</div>
+      <div class="scale-row">
+        <span class="scale-label">Wide awake at 2am</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Out like a light</span>
+      </div>
+    </div>
+
+    <div class="question-card" data-q="h4">
+      <div class="question-text">When your alarm goes off in the morning - how do you actually feel? Refreshed and ready, or like you need another 4 hours?</div>
+      <div class="scale-row">
+        <span class="scale-label">Hit by a truck</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Fresh and ready</span>
+      </div>
+    </div>
+
+    <div class="question-card" data-q="h5">
+      <div class="question-text">Is there any pain or discomfort living in your body right now? Tension, aches, anything chronic that you've just been pushing through?</div>
+      <div class="scale-row">
+        <span class="scale-label">Yeah, a lot</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Pain free</span>
+      </div>
+    </div>
+
+    <!-- SLEEP ENVIRONMENT QUICK-FIRE -->
+    <div class="quickfire">
+      <div class="quickfire-label">Sleep environment - quick fire</div>
+
+      <div class="quickfire-item">
+        <span class="quickfire-q">What time do you usually get to bed?</span>
+        <input type="text" class="quickfire-input" id="qf-bedtime" placeholder="e.g. 10pm">
+      </div>
+
+      <div class="quickfire-item">
+        <span class="quickfire-q">Phone next to you while you sleep?</span>
+        <div class="toggle-group">
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-phone','Yes')">Yes</button>
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-phone','No')">No</button>
+        </div>
+      </div>
+
+      <div class="quickfire-item">
+        <span class="quickfire-q">Any light in the room?</span>
+        <div class="toggle-group">
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-light','Yes')">Yes</button>
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-light','No')">No</button>
+        </div>
+      </div>
+
+      <div class="quickfire-item">
+        <span class="quickfire-q">Nose or mouth breather at night?</span>
+        <div class="toggle-group">
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-breathing','Nose')">Nose</button>
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-breathing','Mouth')">Mouth</button>
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-breathing','Not sure')">Not sure</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAIN DETAIL -->
+    <div class="open-card">
+      <div class="question-text">If you answered yes to pain or discomfort - where is it and what does it feel like? Be specific.</div>
+      <textarea id="open-health-pain" placeholder="e.g. Lower back, tight and achy most mornings..."></textarea>
+    </div>
+
+    <div class="open-card">
+      <div class="question-text">Is there anything you've done in the past that really worked for your health - something that made you feel amazing - that you've let slip? What was it?</div>
+      <textarea id="open-health" placeholder="The thing you know worked but stopped doing..."></textarea>
+    </div>
+  </div>
+
+  <!-- PILLAR 3: BUSINESS -->
+  <div class="pillar" data-pillar="business">
+    <div class="pillar-header business">
+      <span class="pillar-icon">&#9889;</span>
+      <span class="pillar-title">Your Business</span>
+    </div>
+
+    <div class="question-card" data-q="b1">
+      <div class="question-text">How clear is your offer right now? If I asked you "what do you sell and who is it for" - could you nail it in one sentence?</div>
+      <div class="scale-row">
+        <span class="scale-label">I'd ramble</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Sharp as a tack</span>
+      </div>
+    </div>
+
+    <div class="question-card" data-q="b2">
+      <div class="question-text">Do you actually know the problem you solve and the transformation you deliver? Not the fluffy version - the real, tangible shift your people get?</div>
+      <div class="scale-row">
+        <span class="scale-label">It's vague</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Crystal clear</span>
+      </div>
+    </div>
+
+    <div class="question-card" data-q="b3">
+      <div class="question-text">Are your prices where they need to be? Do you feel confident when you say the number, or do you cringe a little?</div>
+      <div class="scale-row">
+        <span class="scale-label">I cringe</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Worth every cent</span>
+      </div>
+    </div>
+
+    <div class="question-card" data-q="b4">
+      <div class="question-text">How are people actually finding you and buying from you right now? Is there a clear path from "who's this?" to "take my money" - or is it all word of mouth and vibes?</div>
+      <div class="scale-row">
+        <span class="scale-label">Hope and prayer</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Clear journey mapped</span>
+      </div>
+    </div>
+
+    <div class="question-card" data-q="b5">
+      <div class="question-text">Your digital presence - website, socials, email list, CRM - is it set up and working for you, or is it a half-built mess you keep meaning to sort out?</div>
+      <div class="scale-row">
+        <span class="scale-label">Half-built mess</span>
+        <div class="scale-buttons">
+          <button class="scale-btn" onclick="selectScore(this,1)">1</button>
+          <button class="scale-btn" onclick="selectScore(this,2)">2</button>
+          <button class="scale-btn" onclick="selectScore(this,3)">3</button>
+          <button class="scale-btn" onclick="selectScore(this,4)">4</button>
+          <button class="scale-btn" onclick="selectScore(this,5)">5</button>
+        </div>
+        <span class="scale-label">Dialled in</span>
+      </div>
+    </div>
+
+    <!-- BUSINESS DETAIL - QUICK FIRE -->
+    <div class="quickfire" style="border-color: var(--business-border);">
+      <div class="quickfire-label" style="color: var(--business);">The specifics - quick fire</div>
+
+      <div class="quickfire-item">
+        <span class="quickfire-q">What's your main offer right now?</span>
+        <input type="text" class="quickfire-input" id="qf-offer" placeholder="e.g. 1:1 coaching" style="width: 180px;">
+      </div>
+
+      <div class="quickfire-item">
+        <span class="quickfire-q">Who are you selling to?</span>
+        <input type="text" class="quickfire-input" id="qf-audience" placeholder="e.g. Women 30-50" style="width: 180px;">
+      </div>
+
+      <div class="quickfire-item">
+        <span class="quickfire-q">Price point?</span>
+        <input type="text" class="quickfire-input" id="qf-price" placeholder="e.g. $2,000">
+      </div>
+
+      <div class="quickfire-item">
+        <span class="quickfire-q">Got a website?</span>
+        <div class="toggle-group">
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-website','Yes')">Yes</button>
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-website','No')">No</button>
+        </div>
+      </div>
+
+      <div class="quickfire-item">
+        <span class="quickfire-q">Email list?</span>
+        <div class="toggle-group">
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-email','Yes')">Yes</button>
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-email','No')">No</button>
+        </div>
+      </div>
+
+      <div class="quickfire-item">
+        <span class="quickfire-q">Using a CRM?</span>
+        <div class="toggle-group">
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-crm','Yes')">Yes</button>
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-crm','No')">No</button>
+          <button class="toggle-btn" onclick="selectToggle(this,'qf-crm','What\'s that')">What's that</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="open-card">
+      <div class="question-text">What's your vision for yourself in business by the end of our time together? Where do you want to be sitting? What does it look like?</div>
+      <textarea id="open-business" placeholder="Dream big, be specific..."></textarea>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-section">
+    <button class="submit-btn" onclick="calculateResults()">Show Me Where I'm At</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="results-header">
+      <h2>Here's Where You're At</h2>
+      <p id="results-name-date"></p>
+    </div>
+
+    <div class="overall-score">
+      <div class="overall-number" id="overall-score">--</div>
+      <div class="overall-label">Overall Score</div>
+      <div class="overall-vibe" id="overall-vibe"></div>
+    </div>
+
+    <div class="pillar-score intuition">
+      <div class="pillar-score-header">
+        <span class="pillar-score-name">Intuition & Trust</span>
+        <span class="pillar-score-number" id="score-intuition">--</span>
+      </div>
+      <div class="pillar-score-bar"><div class="pillar-score-fill" id="bar-intuition" style="width:0%"></div></div>
+      <div class="pillar-score-vibe" id="vibe-intuition"></div>
+    </div>
+
+    <div class="pillar-score health">
+      <div class="pillar-score-header">
+        <span class="pillar-score-name">Your Body & Energy</span>
+        <span class="pillar-score-number" id="score-health">--</span>
+      </div>
+      <div class="pillar-score-bar"><div class="pillar-score-fill" id="bar-health" style="width:0%"></div></div>
+      <div class="pillar-score-vibe" id="vibe-health"></div>
+    </div>
+
+    <div class="pillar-score business">
+      <div class="pillar-score-header">
+        <span class="pillar-score-name">Your Business</span>
+        <span class="pillar-score-number" id="score-business">--</span>
+      </div>
+      <div class="pillar-score-bar"><div class="pillar-score-fill" id="bar-business" style="width:0%"></div></div>
+      <div class="pillar-score-vibe" id="vibe-business"></div>
+    </div>
+
+    <!-- OPEN RESPONSES -->
+    <div style="margin-top:24px;">
+      <div class="open-response" id="resp-intuition" style="display:none;">
+        <div class="open-response-label intuition">Intuition & Trust - What She Said</div>
+        <div class="open-response-q">Her vision for intuitive connection...</div>
+        <div class="open-response-a" id="resp-intuition-text"></div>
+      </div>
+      <div class="open-response" id="resp-health-env" style="display:none;">
+        <div class="open-response-label health">Sleep Environment</div>
+        <div class="open-response-a" id="resp-health-env-text"></div>
+      </div>
+      <div class="open-response" id="resp-health-pain" style="display:none;">
+        <div class="open-response-label health">Pain / Discomfort</div>
+        <div class="open-response-a" id="resp-health-pain-text"></div>
+      </div>
+      <div class="open-response" id="resp-health" style="display:none;">
+        <div class="open-response-label health">Body & Energy - What She Said</div>
+        <div class="open-response-q">What worked before that she stopped doing...</div>
+        <div class="open-response-a" id="resp-health-text"></div>
+      </div>
+      <div class="open-response" id="resp-business-detail" style="display:none;">
+        <div class="open-response-label business">Business Snapshot</div>
+        <div class="open-response-a" id="resp-business-detail-text"></div>
+      </div>
+      <div class="open-response" id="resp-business" style="display:none;">
+        <div class="open-response-label business">Business - What She Said</div>
+        <div class="open-response-q">Her vision for the end of this program...</div>
+        <div class="open-response-a" id="resp-business-text"></div>
+      </div>
+    </div>
+
+    <!-- WHERE TO FOCUS -->
+    <div class="breakdown" id="breakdown">
+      <h3>Where We Start</h3>
+      <div id="breakdown-items"></div>
+    </div>
+
+    <!-- BOOKING CTA -->
+    <div style="text-align:center; margin-top:36px; padding:32px 28px; background:var(--gold-light); border:1px solid var(--gold-border); border-radius:var(--radius);">
+      <div style="font-size:13px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">Next Step</div>
+      <div style="font-size:20px; font-weight:700; margin-bottom:6px;">Book Your Onboarding Call</div>
+      <div style="font-size:14px; color:var(--text-muted); margin-bottom:20px; line-height:1.6;">Now that I know where you're at, let's get on a call and map out your path forward.</div>
+      <a href="https://api.leadconnectorhq.com/widget/bookings/womenonboard" target="_blank" style="display:inline-block; background:var(--gold); color:white; text-decoration:none; padding:16px 48px; border-radius:100px; font-family:'Outfit',sans-serif; font-size:16px; font-weight:700; letter-spacing:1px; transition:all 0.2s;">Book My Call</a>
+    </div>
+
+    <div class="copy-section">
+      <button class="copy-btn" id="copy-btn" onclick="copyResults()">Copy Results to Clipboard</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const scores = {};
+const toggles = {};
+
+function selectScore(btn, val) {
+  const card = btn.closest('.question-card');
+  const q = card.dataset.q;
+  card.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  scores[q] = val;
+}
+
+function selectToggle(btn, group, value) {
+  btn.closest('.toggle-group').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  toggles[group] = value;
+}
+
+function getVibeLabel(avg) {
+  if (avg >= 4.5) return 'This is your zone. We protect and expand this.';
+  if (avg >= 3.5) return 'Good bones here. Let\'s sharpen it up.';
+  if (avg >= 2.5) return 'The messy middle. This is where the real work lives.';
+  if (avg >= 1.5) return 'This needs love. And that\'s exactly why we\'re here.';
+  return 'Starting fresh. Honestly? That\'s kind of exciting.';
+}
+
+function getOverallVibe(avg) {
+  if (avg >= 4.5) return 'You\'re more aligned than most people will ever be. Let\'s go bigger.';
+  if (avg >= 3.5) return 'Solid ground under your feet. Time to turn good into great.';
+  if (avg >= 2.5) return 'Right in the thick of it. This is where everything shifts.';
+  if (avg >= 1.5) return 'There\'s a lot to work with here. That\'s not a bad thing - it\'s the whole point.';
+  return 'Clean slate. Everything is on the table. Let\'s build.';
+}
+
+function calculateResults() {
+  const pillars = {
+    intuition: ['i1','i2','i3','i4','i5'],
+    health: ['h1','h2','h3','h4','h5'],
+    business: ['b1','b2','b3','b4','b5']
+  };
+
+  // Check all scored
+  const allQs = [...pillars.intuition, ...pillars.health, ...pillars.business];
+  const missing = allQs.filter(q => !scores[q]);
+  if (missing.length > 0) {
+    alert('You missed some! Answer all the scored questions first.');
+    return;
+  }
+
+  const pillarScores = {};
+  for (const [name, qs] of Object.entries(pillars)) {
+    const sum = qs.reduce((acc, q) => acc + scores[q], 0);
+    pillarScores[name] = sum / 5;
+  }
+
+  const overall = (pillarScores.intuition + pillarScores.health + pillarScores.business) / 3;
+
+  // Display
+  const name = document.getElementById('student-name').value || 'Student';
+  const date = document.getElementById('audit-date').value || new Date().toISOString().split('T')[0];
+  const bd = document.getElementById('birth-date').value;
+  const bt = document.getElementById('birth-time').value;
+  const bp = document.getElementById('birth-place').value.trim();
+  let headerText = name + ' - ' + date;
+  if (bd) headerText += ' | Born: ' + bd + (bt ? ' ' + bt : '') + (bp ? ', ' + bp : '');
+  document.getElementById('results-name-date').textContent = headerText;
+
+  document.getElementById('overall-score').textContent = overall.toFixed(1);
+  document.getElementById('overall-vibe').textContent = getOverallVibe(overall);
+
+  for (const p of ['intuition','health','business']) {
+    const avg = pillarScores[p];
+    document.getElementById('score-' + p).textContent = avg.toFixed(1) + ' / 5';
+    document.getElementById('bar-' + p).style.width = (avg / 5 * 100) + '%';
+    document.getElementById('vibe-' + p).textContent = getVibeLabel(avg);
+  }
+
+  // Open responses
+  const openI = document.getElementById('open-intuition').value.trim();
+  const openH = document.getElementById('open-health').value.trim();
+  const openHPain = document.getElementById('open-health-pain').value.trim();
+  const openB = document.getElementById('open-business').value.trim();
+  if (openI) { document.getElementById('resp-intuition').style.display = 'block'; document.getElementById('resp-intuition-text').textContent = '"' + openI + '"'; }
+
+  // Sleep environment quickfire
+  const bedtime = document.getElementById('qf-bedtime').value.trim();
+  const hasQF = bedtime || toggles['qf-phone'] || toggles['qf-light'] || toggles['qf-breathing'];
+  if (hasQF) {
+    let envText = '';
+    if (bedtime) envText += 'Bedtime: ' + bedtime + '\n';
+    if (toggles['qf-phone']) envText += 'Phone by bed: ' + toggles['qf-phone'] + '\n';
+    if (toggles['qf-light']) envText += 'Light in room: ' + toggles['qf-light'] + '\n';
+    if (toggles['qf-breathing']) envText += 'Breathing: ' + toggles['qf-breathing'];
+    document.getElementById('resp-health-env').style.display = 'block';
+    document.getElementById('resp-health-env-text').textContent = envText;
+  }
+  if (openHPain) { document.getElementById('resp-health-pain').style.display = 'block'; document.getElementById('resp-health-pain-text').textContent = '"' + openHPain + '"'; }
+  if (openH) { document.getElementById('resp-health').style.display = 'block'; document.getElementById('resp-health-text').textContent = '"' + openH + '"'; }
+
+  // Business quickfire
+  const offer = document.getElementById('qf-offer').value.trim();
+  const audience = document.getElementById('qf-audience').value.trim();
+  const price = document.getElementById('qf-price').value.trim();
+  const hasBizQF = offer || audience || price || toggles['qf-website'] || toggles['qf-email'] || toggles['qf-crm'];
+  if (hasBizQF) {
+    let bizText = '';
+    if (offer) bizText += 'Main offer: ' + offer + '\n';
+    if (audience) bizText += 'Selling to: ' + audience + '\n';
+    if (price) bizText += 'Price point: ' + price + '\n';
+    if (toggles['qf-website']) bizText += 'Website: ' + toggles['qf-website'] + '\n';
+    if (toggles['qf-email']) bizText += 'Email list: ' + toggles['qf-email'] + '\n';
+    if (toggles['qf-crm']) bizText += 'CRM: ' + toggles['qf-crm'];
+    document.getElementById('resp-business-detail').style.display = 'block';
+    document.getElementById('resp-business-detail-text').textContent = bizText;
+  }
+  if (openB) { document.getElementById('resp-business').style.display = 'block'; document.getElementById('resp-business-text').textContent = '"' + openB + '"'; }
+
+  // Focus breakdown - lowest pillar first
+  const sorted = Object.entries(pillarScores).sort((a,b) => a[1] - b[1]);
+  const labels = { intuition: 'Intuition & Trust', health: 'Your Body & Energy', business: 'Your Business' };
+  const focusItems = sorted.map(([p, avg], i) => {
+    const priority = i === 0 ? 'We tackle this first' : i === 1 ? 'Then we work on this' : 'Keep doing what you\'re doing here';
+    return '<div class="breakdown-item"><strong>' + labels[p] + ' (' + avg.toFixed(1) + '/5)</strong> - ' + priority + '</div>';
+  });
+  document.getElementById('breakdown-items').innerHTML = focusItems.join('');
+
+  // Show results
+  document.getElementById('results').classList.add('visible');
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyResults() {
+  const name = document.getElementById('student-name').value || 'Student';
+  const date = document.getElementById('audit-date').value || new Date().toISOString().split('T')[0];
+  const overall = document.getElementById('overall-score').textContent;
+  const vibe = document.getElementById('overall-vibe').textContent;
+  const si = document.getElementById('score-intuition').textContent;
+  const sh = document.getElementById('score-health').textContent;
+  const sb = document.getElementById('score-business').textContent;
+  const vi = document.getElementById('vibe-intuition').textContent;
+  const vh = document.getElementById('vibe-health').textContent;
+  const vb = document.getElementById('vibe-business').textContent;
+
+  const birthDate = document.getElementById('birth-date').value;
+  const birthTime = document.getElementById('birth-time').value;
+  const birthPlace = document.getElementById('birth-place').value.trim();
+
+  let text = '## THE REAL CHECK-IN - ' + name + '\n';
+  text += 'Date: ' + date + '\n';
+  if (birthDate || birthTime || birthPlace) {
+    text += 'Birth: ' + (birthDate || '?') + ' | ' + (birthTime || '?') + ' | ' + (birthPlace || '?') + '\n';
+  }
+  text += '\n';
+  text += '### Overall: ' + overall + ' / 5 - ' + vibe + '\n\n';
+  text += '| Pillar | Score | Status |\n';
+  text += '|--------|-------|--------|\n';
+  text += '| Intuition & Trust | ' + si + ' | ' + vi + ' |\n';
+  text += '| Body & Energy | ' + sh + ' | ' + vh + ' |\n';
+  text += '| Business | ' + sb + ' | ' + vb + ' |\n\n';
+
+  const openI = document.getElementById('open-intuition').value.trim();
+  const openH = document.getElementById('open-health').value.trim();
+  const openB = document.getElementById('open-business').value.trim();
+
+  // Sleep environment
+  const bedtime2 = document.getElementById('qf-bedtime').value.trim();
+  const hasQF2 = bedtime2 || toggles['qf-phone'] || toggles['qf-light'] || toggles['qf-breathing'];
+  if (hasQF2) {
+    text += '### Sleep Environment\n\n';
+    if (bedtime2) text += '- Bedtime: ' + bedtime2 + '\n';
+    if (toggles['qf-phone']) text += '- Phone by bed: ' + toggles['qf-phone'] + '\n';
+    if (toggles['qf-light']) text += '- Light in room: ' + toggles['qf-light'] + '\n';
+    if (toggles['qf-breathing']) text += '- Breathing: ' + toggles['qf-breathing'] + '\n';
+    text += '\n';
+  }
+
+  // Business snapshot
+  const offer2 = document.getElementById('qf-offer').value.trim();
+  const audience2 = document.getElementById('qf-audience').value.trim();
+  const price2 = document.getElementById('qf-price').value.trim();
+  const hasBizQF2 = offer2 || audience2 || price2 || toggles['qf-website'] || toggles['qf-email'] || toggles['qf-crm'];
+  if (hasBizQF2) {
+    text += '### Business Snapshot\n\n';
+    if (offer2) text += '- Main offer: ' + offer2 + '\n';
+    if (audience2) text += '- Selling to: ' + audience2 + '\n';
+    if (price2) text += '- Price point: ' + price2 + '\n';
+    if (toggles['qf-website']) text += '- Website: ' + toggles['qf-website'] + '\n';
+    if (toggles['qf-email']) text += '- Email list: ' + toggles['qf-email'] + '\n';
+    if (toggles['qf-crm']) text += '- CRM: ' + toggles['qf-crm'] + '\n';
+    text += '\n';
+  }
+
+  const openHPain2 = document.getElementById('open-health-pain').value.trim();
+  const openI2 = document.getElementById('open-intuition').value.trim();
+  const openH2 = document.getElementById('open-health').value.trim();
+  const openB2 = document.getElementById('open-business').value.trim();
+  if (openI2 || openH2 || openB2 || openHPain2) {
+    text += '### What She Said\n\n';
+    if (openI2) text += '**Intuition - her vision for connection & trust:** "' + openI2 + '"\n\n';
+    if (openHPain2) text += '**Pain / discomfort:** "' + openHPain2 + '"\n\n';
+    if (openH2) text += '**Body & Energy - what worked before:** "' + openH2 + '"\n\n';
+    if (openB2) text += '**Business - her vision:** "' + openB2 + '"\n\n';
+  }
+
+  // Individual scores
+  text += '### Raw Scores\n\n';
+  const qLabels = {
+    i1: 'Daily connective practice', i2: 'Intuition vs ego', i3: 'Follows her guidance',
+    i4: 'Source connection', i5: 'Moves on faith',
+    h1: 'Daily movement', h2: 'Digestion', h3: 'Falling/staying asleep',
+    h4: 'Waking refreshed', h5: 'Pain/discomfort',
+    b1: 'Offer clarity', b2: 'Problem/transformation clarity', b3: 'Pricing confidence',
+    b4: 'Customer acquisition journey', b5: 'Digital assets'
+  };
+  for (const [q, label] of Object.entries(qLabels)) {
+    text += '- ' + label + ': ' + (scores[q] || '-') + '/5\n';
+  }
+
+  text += '\n### Focus Order\n\n';
+  text += document.getElementById('breakdown-items').innerText + '\n';
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Results to Clipboard'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// Pre-fill for Paula
+document.getElementById('student-name').value = 'Paula McGeown';
+document.getElementById('audit-date').value = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
