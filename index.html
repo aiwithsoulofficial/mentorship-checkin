@@ -654,7 +654,16 @@ body::after { content: ''; position: fixed; bottom: -200px; right: -200px; width
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = 'https://jiquevvzrdavgqonvvug.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImppcXVldnZ6cmRhdmdxb252dnVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NzIxNzIsImV4cCI6MjA4NzU0ODE3Mn0.e4mYjXj8TGTC0_UCm3QCKGSv8Cl-migIl7reYIKNcW4';
+let _supabase = null;
+function getSupabase() {
+  if (!_supabase) _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  return _supabase;
+}
+
 const scores = {};
 const toggles = {};
 
@@ -793,8 +802,60 @@ function calculateResults() {
   document.getElementById('results').classList.add('visible');
   document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
 
-  // Send to Kelly via Telegram
+  // Save to Supabase (pg_net trigger handles Telegram notification server-side)
+  saveToSupabase(pillarScores, overall);
+
+  // Keep client-side Telegram as backup
   sendToTelegram(pillarScores, overall);
+}
+
+function saveToSupabase(pillarScores, overall) {
+  var name = document.getElementById('student-name').value || 'Student';
+  var auditDate = document.getElementById('audit-date').value || null;
+  var birthDate = document.getElementById('birth-date').value || null;
+  var birthTime = document.getElementById('birth-time').value || null;
+  var birthPlace = document.getElementById('birth-place').value.trim() || null;
+
+  var data = {
+    student_name: name,
+    audit_date: auditDate,
+    birth_date: birthDate,
+    birth_time: birthTime,
+    birth_place: birthPlace,
+    intuition_score: parseFloat(pillarScores.intuition.toFixed(2)),
+    health_score: parseFloat(pillarScores.health.toFixed(2)),
+    business_score: parseFloat(pillarScores.business.toFixed(2)),
+    overall_score: parseFloat(overall.toFixed(2)),
+    scores_detail: Object.assign({}, scores),
+    open_responses: {
+      intuition: document.getElementById('open-intuition').value.trim() || null,
+      health_pain: document.getElementById('open-health-pain').value.trim() || null,
+      health: document.getElementById('open-health').value.trim() || null,
+      business: document.getElementById('open-business').value.trim() || null
+    },
+    sleep_data: {
+      bedtime: document.getElementById('qf-bedtime').value.trim() || null,
+      phone_by_bed: toggles['qf-phone'] || null,
+      light_in_room: toggles['qf-light'] || null,
+      breathing: toggles['qf-breathing'] || null
+    },
+    business_snapshot: {
+      offer: document.getElementById('qf-offer').value.trim() || null,
+      audience: document.getElementById('qf-audience').value.trim() || null,
+      price: document.getElementById('qf-price').value.trim() || null,
+      website: document.getElementById('qf-website').value.trim() || null,
+      socials: document.getElementById('qf-socials').value.trim() || null,
+      email_tool: document.getElementById('qf-email').value.trim() || null,
+      crm: document.getElementById('qf-crm').value.trim() || null,
+      ai_tools: document.getElementById('qf-ai').value.trim() || null,
+      other_tools: document.getElementById('qf-other').value.trim() || null
+    }
+  };
+
+  getSupabase().from('checkin_submissions').insert([data]).then(function(result) {
+    if (result.error) console.error('Supabase save failed:', result.error);
+    else console.log('Check-in saved to Supabase');
+  });
 }
 
 function sendToTelegram(pillarScores, overall) {
