@@ -558,6 +558,68 @@ body::after { content: ''; position: fixed; bottom: -200px; right: -200px; width
     </div>
   </div>
 
+  <!-- EXTENDED BUSINESS DEEP DIVE -->
+  <div class="pillar">
+    <div class="pillar-header business">
+      <span class="pillar-icon">&#128269;</span>
+      <span class="pillar-title">The Deep Dive</span>
+    </div>
+
+    <div class="open-card">
+      <div class="question-text">What do you HATE doing in your business? The stuff that drains you, the tasks you avoid, the things that make you want to close your laptop and walk away.</div>
+      <textarea id="dd-hate" placeholder="Be brutally honest - this is where we start..."></textarea>
+    </div>
+
+    <div class="open-card">
+      <div class="question-text">What are your current offers and products? List everything you sell - name, price, how it's delivered.</div>
+      <textarea id="dd-offers" placeholder="e.g. 1:1 coaching $200/hr, online course $497, group program $1,200..."></textarea>
+    </div>
+
+    <div class="open-card">
+      <div class="question-text">What campaigns or marketing are you currently running? Ads, email sequences, lead magnets, funnels - anything active.</div>
+      <textarea id="dd-campaigns" placeholder="e.g. Facebook ads to a freebie, weekly email newsletter, nothing at all..."></textarea>
+    </div>
+
+    <div class="quickfire" style="border-color: var(--business-border);">
+      <div class="quickfire-label" style="color: var(--business);">Your Digital Footprint</div>
+
+      <div class="quickfire-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
+        <span class="quickfire-q">Social media accounts - list every platform and handle you use for business</span>
+        <textarea id="dd-socials" style="width:100%; min-height:60px; border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-family:'Inter',sans-serif; font-size:14px; background:var(--surface-2); color:var(--text); resize:vertical;" placeholder="e.g. Instagram: @myhandle, TikTok: @myhandle, LinkedIn: linkedin.com/in/me, Facebook page: My Business..."></textarea>
+      </div>
+
+      <div class="quickfire-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
+        <span class="quickfire-q">Email addresses you use for business (all of them)</span>
+        <textarea id="dd-emails" style="width:100%; min-height:40px; border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-family:'Inter',sans-serif; font-size:14px; background:var(--surface-2); color:var(--text); resize:vertical;" placeholder="e.g. hello@mybusiness.com, personal@gmail.com..."></textarea>
+      </div>
+
+      <div class="quickfire-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
+        <span class="quickfire-q">Phone numbers / SMS you use for business</span>
+        <input type="text" id="dd-phone" class="quickfire-input" style="width:100%; text-align:left;" placeholder="e.g. +61400000000">
+      </div>
+
+      <div class="quickfire-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
+        <span class="quickfire-q">What CRM or client management system do you use? (or nothing - that's OK)</span>
+        <input type="text" id="dd-crm" class="quickfire-input" style="width:100%; text-align:left;" placeholder="e.g. GHL, HubSpot, Dubsado, spreadsheet, nothing...">
+      </div>
+    </div>
+
+    <div class="open-card">
+      <div class="question-text">In a perfect world - what is DONE FOR YOU? If money and time were no object, what would you hand off tomorrow and never think about again?</div>
+      <textarea id="dd-dfy-dream" placeholder="Everything from social media to invoicing to client follow-ups - what do you wish someone else just handled?"></textarea>
+    </div>
+
+    <div class="open-card">
+      <div class="question-text">What are YOU doing in your business right now? The stuff you actually handle yourself day-to-day.</div>
+      <textarea id="dd-doing-now" placeholder="Be specific - content creation, bookkeeping, client sessions, emails, social media..."></textarea>
+    </div>
+
+    <div class="open-card">
+      <div class="question-text">Paint me the picture. What does your life look like when your business is working the way you want it to? What does your Tuesday look like? Your weekends? How do you feel?</div>
+      <textarea id="dd-dream-life" placeholder="This is the important one. Tell me everything."></textarea>
+    </div>
+  </div>
+
   <!-- SUBMIT -->
   <div class="submit-section">
     <button class="submit-btn" onclick="calculateResults()">Submit</button>
@@ -849,6 +911,18 @@ function saveToSupabase(pillarScores, overall) {
       crm: document.getElementById('qf-crm').value.trim() || null,
       ai_tools: document.getElementById('qf-ai').value.trim() || null,
       other_tools: document.getElementById('qf-other').value.trim() || null
+    },
+    deep_dive: {
+      hate_doing: document.getElementById('dd-hate').value.trim() || null,
+      current_offers: document.getElementById('dd-offers').value.trim() || null,
+      current_campaigns: document.getElementById('dd-campaigns').value.trim() || null,
+      social_accounts: document.getElementById('dd-socials').value.trim() || null,
+      business_emails: document.getElementById('dd-emails').value.trim() || null,
+      business_phone: document.getElementById('dd-phone').value.trim() || null,
+      crm_system: document.getElementById('dd-crm').value.trim() || null,
+      dfy_dream: document.getElementById('dd-dfy-dream').value.trim() || null,
+      doing_now: document.getElementById('dd-doing-now').value.trim() || null,
+      dream_life: document.getElementById('dd-dream-life').value.trim() || null
     }
   };
 
