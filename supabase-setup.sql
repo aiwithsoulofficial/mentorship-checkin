@@ -153,7 +153,7 @@ BEGIN
     || 'Run <code>/onboard ' || NEW.student_name || '</code> for full analysis';
 
   PERFORM net.http_post(
-    url := 'https://api.telegram.org/bot8370823351:AAFIS2oYqnoqm_y4xaZlNMqb4SaFnapDu7s/sendMessage',
+    url := ('https://api.telegram.org/bot' || (select btrim(value::text, '"') from public.app_config where key = 'telegram_bot_token') || '/sendMessage'),
     headers := '{"Content-Type": "application/json"}'::jsonb,
     body := json_build_object(
       'chat_id', '6783708099',

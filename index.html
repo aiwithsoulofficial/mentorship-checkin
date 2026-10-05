@@ -1011,11 +1011,7 @@ function sendToTelegram(pillarScores, overall) {
   };
   for (const [q,l] of Object.entries(qLabels)) msg += l + ': ' + (scores[q]||'-') + '/5\n';
 
-  fetch('https://api.telegram.org/bot8370823351:AAFIS2oYqnoqm_y4xaZlNMqb4SaFnapDu7s/sendMessage', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ chat_id: '6783708099', text: msg, parse_mode: 'HTML' })
-  }).catch(() => {});
+  // Telegram alert is sent by the database trigger on checkin_submissions (no bot token in the browser).
 }
 
 function copyResults() {
